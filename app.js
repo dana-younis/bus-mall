@@ -9,21 +9,25 @@ let middleImageElement = document.getElementById('middle-image');
 let maxAttempts = 10;
 let userAttemptsCounter = 0;
 let mainDiv = document.getElementById('images-div');
-let continer = document.getElementById('continer');
+let continer= document.getElementById('images-div');
 
 let leftImageIndex;
 let rightImageIndex;
 let middleImageIndex;
 BusMall.img = [];
 
+let namesArr=[];
+let votesArr=[];
+let shownArr=[];
 
 
 
 
-function BusMall(NameOfTheProduct, FilePathOfImage, TimesTheImageHasBeenShown) {
+
+function BusMall(NameOfTheProduct, FilePathOfImage) {
     this.NameOfTheProduct = NameOfTheProduct;
     this.FilePathOfImage = FilePathOfImage;
-    this.TimesTheImageHasBeenShown = TimesTheImageHasBeenShown;
+    this.Shown = 0;
    
     this.votes = 0;
     BusMall.img.push(this);
@@ -69,7 +73,7 @@ function render() {
     rightImageIndex = generateRandomIndex();
     middleImageIndex = generateRandomIndex();
 
-    while (leftImageIndex == rightImageIndex || middleImageIndex == leftImageIndex) {
+    while (leftImageIndex === rightImageIndex || middleImageIndex === leftImageIndex || rightImageIndex===middleImageIndex) {
         rightImageIndex = generateRandomIndex();
         middleImageIndex = generateRandomIndex();
 
@@ -80,9 +84,9 @@ function render() {
     rightImageElement.src = BusMall.img[rightImageIndex].FilePathOfImage;
     middleImageElement.src = BusMall.img[middleImageIndex].FilePathOfImage;
 
-    BusMall[leftImageIndex].TimesTheImageHasBeenShown++;
-    BusMall[rightImageIndex].TimesTheImageHasBeenShown++;
-    BusMall[middleImageIndex].TimesTheImageHasBeenShown++;
+    BusMall.img[leftImageIndex].Shown++;
+    BusMall.img[rightImageIndex].Shown++;
+    BusMall.img[middleImageIndex].Shown++;
 
 
 }
@@ -94,83 +98,79 @@ render();
 
 // let mainDiv = document.getElementById('mainDiv');
 
-mainDiv.addEventListener('click',UserClick);
+continer.addEventListener('click',UserClick);
 
 
 
 function UserClick(event) {
-    //     console.log(event.target.id);
-    //    userAttemptsCounter++;
-    //     console.log(userAttemptsCounter);
+          console.log(event.target.id);
+        userAttemptsCounter++;
+        console.log(userAttemptsCounter);
 
     if (userAttemptsCounter < maxAttempts) {
         if (event.target.id === 'left-image') {
-            userAttemptsCounter++;
+            // userAttemptsCounter++;
             BusMall.img[leftImageIndex].votes++;
-            console.log(BusMall.img[leftImageIndex].votes++);
+            // console.log(BusMall.img[leftImageIndex].votes++);
         }
 
 
         else if (event.target.id === 'middle-image') {
-            userAttemptsCounter++;
+            // userAttemptsCounter++;
             BusMall.img[middleImageIndex].votes++;
-            console.log(BusMall.img[middleImageIndex].votes++);
+            // console.log(BusMall.img[middleImageIndex].votes++);
         }
 
         else if (event.target.id === 'right-image') {
-            userAttemptsCounter++;
+            // userAttemptsCounter++;
             BusMall.img[rightImageIndex].votes++;
-            console.log(BusMall.img[rightImageIndex].votes++);
+            // console.log(BusMall.img[rightImageIndex].votes++);
         }
         //     else if {BusMall.img[rightImageIndex].votes++ }
 
         //    console.log(BusMall.img);
-
-
+      else {alert('please click on the images');
+     userAttemptsCounter--; }
+     console.log(BusMall.img);
+     render();
     }
 
 
-    else {
+   
 
+
+     
+
+  else { let button =document.getElementById('button');
+
+         button.addEventListener('click',showing);
+         button.hidden=false;
+     
+            //  let list=document.getElementById('results-list');
+            for (let i = 0; i < BusMall.img.length; i++){
+                votesArr.push(BusMall.img[i].votes);
+                shownArr.push(BusMall.img[i].Shown);
+      
+            }
+            console.log(votesArr);
+            continer.removeEventListener('click',UserClick);
+
+        }}
+        UserClick();
+
+
+function showing() {
+    let list=document.getElementById('results-list');
+
+    let Result;
+    for (let i = 0; i < BusMall.img.length; i++){
+        Result=document.createElement('li');
+        list.appendChild(Result);
+        Result.textContent=`${BusMall.img[i].NameOfTheProduct} has ${BusMall.img[i].votes} votes and was seen ${BusMall.img[i].Shown} times`
         
     }
 
-
-
-    //            let list=document.getElementById('results-list');
-    //            let Result;
-
-    //            for (let i = 0; i < BusMall.img.length; i++) {
-    //            goatResult=document.createElement('li');
-    //           list.appendChild(goatResult);
-    //              Result.textContent=`${BusMall.img[i].NameOfTheProduct} has ${BusMall.img[i].votes} votes`
-
-    //          }
-
-    //           leftImageElement.removeEventListener('click',Click);
-
-    //          }
-    //        }  
-
-    //        if (userAttemptsCounter=maxAttempts){
-    //          let parent =document.getElementById('continer');
-    //          let btn =document.getElementById('btn');
-    //          btn.addEventListener('on click',finish);
-
-
-    //          function finish() {
-
-
-
-    //          }
-    //      }
-
-
-
-    //      generateRandomIndex()
-
-    //       Click();
-    //  BusMall();}
+    button.removeEventListener('click',showing);          
 }
-UserClick();
+
 BusMall();
