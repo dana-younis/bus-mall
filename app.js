@@ -6,7 +6,7 @@ let leftImageElement = document.getElementById('left-image');
 let rightImageElement = document.getElementById('right-image');
 let middleImageElement = document.getElementById('middle-image');
 
-let maxAttempts = 10;
+let maxAttempts = 25;
 let userAttemptsCounter = 0;
 let mainDiv = document.getElementById('images-div');
 let continer= document.getElementById('images-div');
@@ -24,6 +24,7 @@ let shownArr=[];
 
 
 
+
 function BusMall(NameOfTheProduct, FilePathOfImage) {
     this.NameOfTheProduct = NameOfTheProduct;
     this.FilePathOfImage = FilePathOfImage;
@@ -31,6 +32,7 @@ function BusMall(NameOfTheProduct, FilePathOfImage) {
    
     this.votes = 0;
     BusMall.img.push(this);
+    namesArr.push(this.NameOfTheProduct);
 }
 
 
@@ -66,6 +68,7 @@ function generateRandomIndex() {
 
 }
 
+let str=[];
 
 function render() {
 
@@ -73,11 +76,27 @@ function render() {
     rightImageIndex = generateRandomIndex();
     middleImageIndex = generateRandomIndex();
 
-    while (leftImageIndex === rightImageIndex || middleImageIndex === leftImageIndex || rightImageIndex===middleImageIndex) {
-        rightImageIndex = generateRandomIndex();
+    while (leftImageIndex === rightImageIndex || middleImageIndex === leftImageIndex || rightImageIndex===middleImageIndex||str.includes(leftImageIndex) ||str.includes(rightImageIndex)|| str.includes(middleImageIndex)) {
+        
+        
+        // if (str.includes(leftImageIndex) ||str.includes(rightImageIndex)|| str.includes(middleImageIndex))
+        // {
+        //     rightImageIndex = generateRandomIndex();
+        //     middleImageIndex = generateRandomIndex();
+        //     leftImageIndex = generateRandomIndex();
+            
+            
+            
+        // }
+        
+       rightImageIndex = generateRandomIndex();
         middleImageIndex = generateRandomIndex();
-
+         leftImageIndex = generateRandomIndex();
+        
     }
+    
+    
+    str =[leftImageIndex,rightImageIndex,middleImageIndex];
 
 
     leftImageElement.src = BusMall.img[leftImageIndex].FilePathOfImage;
@@ -91,6 +110,7 @@ function render() {
 
 }
 
+
 render();
 
 
@@ -103,7 +123,7 @@ continer.addEventListener('click',UserClick);
 
 
 function UserClick(event) {
-          console.log(event.target.id);
+        //   console.log(event.target.id);
         userAttemptsCounter++;
         console.log(userAttemptsCounter);
 
@@ -153,6 +173,7 @@ function UserClick(event) {
       
             }
             console.log(votesArr);
+            chart();
             continer.removeEventListener('click',UserClick);
 
         }}
@@ -170,7 +191,54 @@ function showing() {
         
     }
 
-    button.removeEventListener('click',showing);          
+    button.removeEventListener('click',showing);   
+    
+    
 }
 
-BusMall();
+function chart() {
+    let ctx = document.getElementById('myChart').getContext('2d');
+    
+    let chart= new Chart(ctx,{
+      // what type is the chart
+     type: 'bar',
+  
+    //  the data for showing
+     data:{
+      //  for the names
+        labels: namesArr,
+        
+        datasets: [
+          {
+          label: 'votes',
+          data: votesArr,
+          backgroundColor: [
+            'blue',
+          ],
+    
+          borderWidth: 1
+        },
+  
+        {
+          label: 'Shown',
+          data: shownArr,
+          backgroundColor: [
+            'red',
+          ],
+    
+          borderWidth: 1
+        }
+        
+      ]
+      },
+      options: {}
+    });
+    
+  }
+ 
+  BusMall();
+    // while (str.includes(leftImageIndex) ||str.includes(rightImageIndex)|| str.includes(middleImageIndex)) {
+        //     rightImageIndex = generateRandomIndex();
+        // middleImageIndex = generateRandomIndex();
+        // leftImageIndex = generateRandomIndex();
+        // }
