@@ -155,7 +155,7 @@ function UserClick(event) {
       else {alert('please click on the images');
      userAttemptsCounter--; }
      console.log(BusMall.img);
-     updateStorage();
+     
      render();
 
     }
@@ -177,7 +177,9 @@ function UserClick(event) {
                 shownArr.push(BusMall.img[i].Shown);
       
             }
+
             console.log(votesArr);
+            updateStorage();
             chart();
             continer.removeEventListener('click',UserClick);
             
