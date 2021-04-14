@@ -25,6 +25,7 @@ let shownArr=[];
 
 
 
+
 function BusMall(NameOfTheProduct, FilePathOfImage) {
     this.NameOfTheProduct = NameOfTheProduct;
     this.FilePathOfImage = FilePathOfImage;
@@ -33,7 +34,18 @@ function BusMall(NameOfTheProduct, FilePathOfImage) {
     this.votes = 0;
     BusMall.img.push(this);
     namesArr.push(this.NameOfTheProduct);
+    BusMall.arr.push(this);
+
+    
+
 }
+
+ BusMall.arr=[];
+
+
+
+
+
 
 
 new BusMall('bag', 'img/bag.jpg');
@@ -78,16 +90,7 @@ function render() {
 
     while (leftImageIndex === rightImageIndex || middleImageIndex === leftImageIndex || rightImageIndex===middleImageIndex||str.includes(leftImageIndex) ||str.includes(rightImageIndex)|| str.includes(middleImageIndex)) {
         
-        
-        // if (str.includes(leftImageIndex) ||str.includes(rightImageIndex)|| str.includes(middleImageIndex))
-        // {
-        //     rightImageIndex = generateRandomIndex();
-        //     middleImageIndex = generateRandomIndex();
-        //     leftImageIndex = generateRandomIndex();
-            
-            
-            
-        // }
+       
         
        rightImageIndex = generateRandomIndex();
         middleImageIndex = generateRandomIndex();
@@ -152,7 +155,9 @@ function UserClick(event) {
       else {alert('please click on the images');
      userAttemptsCounter--; }
      console.log(BusMall.img);
+     updateStorage();
      render();
+
     }
 
 
@@ -166,7 +171,7 @@ function UserClick(event) {
          button.addEventListener('click',showing);
          button.hidden=false;
      
-            //  let list=document.getElementById('results-list');
+        
             for (let i = 0; i < BusMall.img.length; i++){
                 votesArr.push(BusMall.img[i].votes);
                 shownArr.push(BusMall.img[i].Shown);
@@ -175,8 +180,10 @@ function UserClick(event) {
             console.log(votesArr);
             chart();
             continer.removeEventListener('click',UserClick);
+            
 
-        }}
+        }
+      }
         UserClick();
 
 
@@ -235,10 +242,46 @@ function chart() {
     });
     
   }
+
+  function updateStorage() {
  
-  BusMall();
+    let arrayString1=JSON.stringify(BusMall.arr);
+    
+    //  console.log(BusMall.Shown);
+     console.log(arrayString1);
+    
+    localStorage.setItem('shown and votes',arrayString1);
+   
+  }
+  
+  function mall() {
+  
+    
+    let data1 =localStorage.getItem('shown and votes');
+    console.log(data1);
+  
+   
+    
+  
+  
+    // BusMall.arr=shownData1;
+   if (shownData1 !==null  ) {
+    let shownData1=JSON.parse(data1);
+    console.log(shownData1);
+      BusMall.arr=shownData1;
+    
+    }
+  
+    // render();
+  
+  }
+  
+ 
+  mall();
+  // BusMall();
+
     // while (str.includes(leftImageIndex) ||str.includes(rightImageIndex)|| str.includes(middleImageIndex)) {
         //     rightImageIndex = generateRandomIndex();
         // middleImageIndex = generateRandomIndex();
         // leftImageIndex = generateRandomIndex();
-        // }
+       
