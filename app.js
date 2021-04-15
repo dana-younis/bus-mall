@@ -186,7 +186,7 @@ function UserClick(event) {
 
         }
       }
-        UserClick();
+        // UserClick();
 
 
 function showing() {
@@ -247,7 +247,7 @@ function chart() {
 
   function updateStorage() {
  
-    let arrayString1=JSON.stringify(BusMall.arr);
+    let arrayString1=JSON.stringify( BusMall.img);
     
     //  console.log(BusMall.Shown);
      console.log(arrayString1);
@@ -267,10 +267,10 @@ function chart() {
   
   
     // BusMall.arr=shownData1;
-   if (shownData1 !==null  ) {
+   if (data1 !==null  ) {
     let shownData1=JSON.parse(data1);
     console.log(shownData1);
-      BusMall.arr=shownData1;
+    BusMall.img=shownData1;
     
     }
   
